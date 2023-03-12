@@ -2,6 +2,9 @@
 Main Module for Time Calculator Engine
 """
 from utils.str_operations import StrOperation
+from utils.colors import ColorCodes
+
+col = ColorCodes()
 
 class TimeCalculatorEngine:
     def __init__(self, time_component:str, added_time:str) -> None:
@@ -99,18 +102,18 @@ class TimeCalculatorEngine:
         final_total_mins_str = f"{final_total_mins:02}"
         if day=='No Day':
             if num_days==0:
-                return f"{str(current_hr)}:{final_total_mins_str} {period}"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}"
             elif num_days==1:
-                return f"{str(current_hr)}:{final_total_mins_str} {period} (next day)"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.green}(next day)"
             else:
-                return f"{str(current_hr)}:{final_total_mins_str} {period} ({str(num_days)} days later)"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.red}({str(num_days)} days later)"
         else:
             day=day.capitalize()
             if num_days==0:
-                return f"{str(current_hr)}:{final_total_mins_str} {period}, {day}"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day}"
             elif num_days==1:
-                return f"{str(current_hr)}:{final_total_mins_str} {period}, {day} (next day)"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.green}(next day)"
             else:
-                return f"{str(current_hr)}:{final_total_mins_str} {period}, {day} ({str(num_days)} days later)"
+                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.red}({str(num_days)} days later)"
 
 
