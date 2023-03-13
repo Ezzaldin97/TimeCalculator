@@ -96,7 +96,7 @@ class TimeCalculatorEngine:
         ----------
         day:Day of Week
         """
-        tf = TimeFormat(self.hr_time_component, self.min_time_component, self.period)
+        tf = TimeFormat(self.hr_time_component, self.min_time_component, self.period, day)
         if tf.check_time_parts():
             increased_hr, total_mins = TimeCalculatorEngine._calc_minutes(self.min_time_component, self.added_min)
             initial_period, initial_hr, counter = TimeCalculatorEngine._calc_hr(self.period, self.hr_time_component, self.added_hr)

@@ -54,4 +54,8 @@ def test_twenty_four_with_day():
 def test_not_valid_range():
         with pytest.raises(ValueError):
                 tc = TimeCalculatorEngine("2:59 TM", "24:00")
-                actual = tc.add_time()
+                tc.add_time()
+def test_not_valid_range():
+        with pytest.raises(ValueError):
+                tc = TimeCalculatorEngine("2:59 AM", "24:00")
+                tc.add_time("fday")
