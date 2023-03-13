@@ -3,6 +3,7 @@ Main Module for Time Calculator Engine
 """
 from utils.str_operations import StrOperation
 from utils.colors import ColorCodes
+from utils.check_time_format import TimeFormat
 
 col = ColorCodes()
 
@@ -95,25 +96,29 @@ class TimeCalculatorEngine:
         ----------
         day:Day of Week
         """
-        increased_hr, total_mins = TimeCalculatorEngine._calc_minutes(self.min_time_component, self.added_min)
-        initial_period, initial_hr, counter = TimeCalculatorEngine._calc_hr(self.period, self.hr_time_component, self.added_hr)
-        current_hr, final_total_mins, period, num_days = TimeCalculatorEngine._calc_time(increased_hr, total_mins, initial_period, initial_hr, counter)
-        day = TimeCalculatorEngine._current_day(day, num_days)
-        final_total_mins_str = f"{final_total_mins:02}"
-        if day=='No Day':
-            if num_days==0:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}"
-            elif num_days==1:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.green}(next day)"
+        tf = TimeFormat(self.hr_time_component, self.min_time_component, self.period)
+        if tf.check_time_parts():
+            increased_hr, total_mins = TimeCalculatorEngine._calc_minutes(self.min_time_component, self.added_min)
+            initial_period, initial_hr, counter = TimeCalculatorEngine._calc_hr(self.period, self.hr_time_component, self.added_hr)
+            current_hr, final_total_mins, period, num_days = TimeCalculatorEngine._calc_time(increased_hr, total_mins, initial_period, initial_hr, counter)
+            day = TimeCalculatorEngine._current_day(day, num_days)
+            final_total_mins_str = f"{final_total_mins:02}"
+            if day=='No Day':
+                if num_days==0:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}"
+                elif num_days==1:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.green}(next day)"
+                else:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.red}({str(num_days)} days later)"
             else:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period} {col.red}({str(num_days)} days later)"
+                day=day.capitalize()
+                if num_days==0:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day}"
+                elif num_days==1:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.green}(next day)"
+                else:
+                    return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.red}({str(num_days)} days later)"
         else:
-            day=day.capitalize()
-            if num_days==0:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day}"
-            elif num_days==1:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.green}(next day)"
-            else:
-                return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.red}({str(num_days)} days later)"
+            raise ValueError(f"{col.red}Hour, Minute or Period outside the Valid Range")
 
 

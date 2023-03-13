@@ -51,3 +51,7 @@ def test_twenty_four_with_day():
         actual = tc.add_time(day = "saturDay")
         expected = "\x1b[1;34m2:59 AM, \x1b[33;21mSunday \x1b[1;32m(next day)"
         assert(actual==expected)
+def test_not_valid_range():
+        with pytest.raises(ValueError):
+                tc = TimeCalculatorEngine("2:59 TM", "24:00")
+                actual = tc.add_time()
