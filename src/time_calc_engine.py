@@ -17,7 +17,7 @@ class TimeCalculatorEngine:
         time_component:string time format given in this format: 12:30 PM
         added_time: hours:mins: 30:09
         """
-        if re.search(r"\d{1,2}\:{1}\d{1,2}\s{0,1}[PMA]{0,2}", time_component) and re.search(r"\d{1,2}\:{1}\d{1,2}\s{0,1}[PMA]{0,2}", added_time):
+        if re.search(r"^\d{1,2}\:{1}\d{1,2}\s{0,1}[PMA]{0,2}$", time_component) and re.search(r"^\d+\:{1}\d+$", added_time):
             strOps = StrOperation(time_component)
             self.time_component = time_component
             self.added_time = added_time
