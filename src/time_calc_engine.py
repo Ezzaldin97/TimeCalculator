@@ -4,6 +4,7 @@ Main Module for Time Calculator Engine
 from utils.str_operations import StrOperation
 from utils.colors import ColorCodes
 from utils.check_time_format import TimeFormat
+import re
 
 col = ColorCodes()
 
@@ -16,12 +17,16 @@ class TimeCalculatorEngine:
         time_component:string time format given in this format: 12:30 PM
         added_time: hours:mins: 30:09
         """
-        strOps = StrOperation(time_component)
-        self.time_component = time_component
-        self.added_time = added_time
-        self.clock_format, self.period = strOps.split_time_components()
-        self.hr_time_component, self.min_time_component = strOps.split_clock_components(self.clock_format)
-        self.added_hr, self.added_min = strOps.split_clock_components(added_time)
+        if re.search(r"\d{1,2}\:{1}\d{1,2}\s{0,1}[PMA]{0,2}", time_component) and re.search(r"\d{1,2}\:{1}\d{1,2}\s{0,1}[PMA]{0,2}", added_time):
+            strOps = StrOperation(time_component)
+            self.time_component = time_component
+            self.added_time = added_time
+            self.clock_format, self.period = strOps.split_time_components()
+            self.period = self.period.upper()
+            self.hr_time_component, self.min_time_component = strOps.split_clock_components(self.clock_format)
+            self.added_hr, self.added_min = strOps.split_clock_components(added_time)
+        else:
+            raise ValueError(f"{col.red}Time Format is not correct\nformat must be [hour]:[minute] [period]")
     @staticmethod
     def _calc_minutes(min_time_component:str, added_min:str):
         increased_hr, total_mins=0, None
@@ -119,6 +124,4 @@ class TimeCalculatorEngine:
                 else:
                     return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.red}({str(num_days)} days later)"
         else:
-            raise ValueError(f"{col.red}Hour, Minute, Period or Day outside the Valid Range")
-
-
+            raise ValueError(f"{col.red}Hour, Minute, Period or Day is outside the Valid Range")

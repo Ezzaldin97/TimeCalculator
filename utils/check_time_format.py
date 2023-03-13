@@ -1,6 +1,23 @@
+"""
+Main Module of Time Formats Validation
+"""
+import re
+from utils.str_operations import StrOperation
+from utils.colors import ColorCodes
+
+col = ColorCodes()
 
 class TimeFormat:
     def __init__(self, hr:str, minute:str, period:str, day:str) -> None:
+        """
+        init function
+        parameters
+        ----------
+        hr:hour
+        minute:minutes
+        period:day period (PM,AM)
+        day:day of week
+        """
         self.hr = int(hr)
         self.min = int(minute)
         self.period = period
