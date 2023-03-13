@@ -119,6 +119,6 @@ class TimeCalculatorEngine:
                 else:
                     return f"{col.blue}{str(current_hr)}:{final_total_mins_str} {period}, {col.yellow}{day} {col.red}({str(num_days)} days later)"
         else:
-            raise ValueError(f"{col.red}Hour, Minute or Period outside the Valid Range")
+            raise ValueError(f"{col.red}Hour, Minute, Period or Day outside the Valid Range")
 
 
